@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dragon's Breath - Infinite Kung Fu Wisdom</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Anton:wght@400&family=Roboto:wght@300;400;500;700&family=Noto+Serif+JP:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: linear-gradient(135deg, #1a0a0a 0%, #2d1b1b 25%, #3d1a1a 50%, #2d1b1b 75%, #1a0a0a 100%);
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+        
+        .title-font {
+            font-family: 'Anton', sans-serif;
+            letter-spacing: 3px;
+        }
+        
+        .quote-font {
+            font-family: 'Noto Serif JP', serif;
+        }
+        
+        /* Floating particles background */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+        
+        .particle {
+            position: absolute;
+            font-size: 1rem;
+            opacity: 0.1;
+            animation: float 20s linear infinite;
+        }
+        
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.3;
+            }
+            90% {
+                opacity: 0.3;
+            }
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+        
+        /* Dragon animations */
+        .dragon-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+        
+        .dragon {
+            position: absolute;
+            font-size: 3rem;
+            animation: dragonFly 25s linear infinite;
+            opacity: 0.15;
+            filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.3));
+        }
+        
+        @keyframes dragonFly {
+            0% {
+                transform: translate(-200px, 50vh) rotate(0deg) scale(0.5);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.15;
+                transform: translate(-100px, 45vh) rotate(20deg) scale(0.8);
+            }
+            50% {
+                transform: translate(50vw, 30vh) rotate(180deg) scale(1.2);
+            }
+            90% {
+                opacity: 0.15;
+                transform: translate(calc(100vw + 100px), 60vh) rotate(340deg) scale(0.8);
+            }
+            100% {
+                transform: translate(calc(100vw + 200px), 70vh) rotate(360deg) scale(0.5);
+                opacity: 0;
+            }
+        }
+        
+        /* Quote card styling */
+        .quote-card {
+            backdrop-filter: blur(15px);
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            box-shadow: 
+                0 8px 32px rgba(0, 0, 0, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            transition: all 0.5s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .quote-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 215, 0, 0.1), transparent);
+            transition: left 0.8s ease;
+        }
+        
+        .quote-card:hover::before {
+            left: 100%;
+        }
+        
+        .quote-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 
+                0 20px 40px rgba(0, 0, 0, 0.4),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2);
+            border-color: rgba(255, 215, 0, 0.4);
+        }
+        
+        /* Mood button styling */
+        .mood-btn {
+            backdrop-filter: blur(10px);
+            background: rgba(0, 0, 0, 0.3);
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .mood-btn.active {
+            border-color: #ffd700;
+            background: rgba(255, 215, 0, 0.1);
+            transform: scale(1.05);
+        }
+        
+        .mood-btn:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+        }
+        
+        /* Animations */
+        .fade-in {
+            animation: fadeInUp 0.8s ease-out;
+        }
+        
+        @keyframes fadeInUp {
+            from { 
+                opacity: 0; 
+                transform: translateY(30px);
+            }
+            to { 
+                opacity: 1; 
+                transform: translateY(0);
+            }
+        }
+        
+        .pulse-glow {
+            animation: pulseGlow 3s ease-in-out infinite;
+        }
+        
+        @keyframes pulseGlow {
+            0%, 100% {
+                text-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+            }
+            50% {
+                text-shadow: 0 0 40px rgba(255, 215, 0, 0.8);
+            }
+        }
+        
+        /* Scroll indicator */
+        .scroll-indicator {
+            animation: bounce 2s infinite;
+        }
+        
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0);
+            }
+            40% {
+                transform: translateY(-20px);
+            }
+            60% {
+                transform: translateY(-10px);
+            }
+        }
+        
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.2);
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(to bottom, #ffd700, #ff8c00);
+            border-radius: 4px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(to bottom, #ffed4a, #ff6b35);
+        }
+    </style>
+</head>
+<body class="text-white">
+    <!-- Floating particles -->
+    <div class="particles" id="particles"></div>
+    
+    <!-- Dragon animations -->
+    <div class="dragon-container" id="dragons">
+        <div class="dragon" style="animation-delay: 0s;">🐲</div>
+        <div class="dragon" style="animation-delay: 8s;">🐉</div>
+        <div class="dragon" style="animation-delay: 16s;">🐲</div>
+    </div>
+    
+    <div class="relative z-10 min-h-screen">
+        <div class="container mx-auto max-w-6xl px-4 py-8">
+            <!-- Header -->
+            <header class="text-center mb-16">
+                <h1 class="title-font text-6xl md:text-8xl font-bold mb-6 bg-gradient-to-r from-yellow-400 via-red-500 to-orange-600 bg-clip-text text-transparent pulse-glow">
+                    🐉 DRAGON'S BREATH
+                </h1>
+                <p class="text-2xl md:text-3xl text-gray-300 mb-4 quote-font">
+                    Wisdom forged in the fires of discipline
+                </p>
+                <div class="w-32 h-1 bg-gradient-to-r from-yellow-400 to-red-500 mx-auto rounded-full"></div>
+            </header>
+            
+            <!-- Mood Selection -->
+            <div class="mb-16">
+                <h2 class="text-2xl font-bold text-center mb-8 text-yellow-400">Choose Your Path, Warrior</h2>
+                <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-8 gap-4">
+                    <button class="mood-btn rounded-xl p-6 flex flex-col items-center active" data-mood="peaceful">
+                        <i class="fas fa-dove text-3xl mb-3 text-blue-300"></i>
+                        <span class="font-medium">Peaceful</span>
+                    </button>
+                    <button class="mood-btn rounded-xl p-6 flex flex-col items-center" data-mood="focused">
+                        <i class="fas fa-bullseye text-3xl mb-3 text-green-300"></i>
+                        <span class="font-medium">Focused</span>
+                    </button>
+                    <button class="mood-btn rounded-xl p-6 flex flex-col items-center" data-mood="angry">
+                        <i class="fas fa-fire text-3xl mb-3 text-red-300"></i>
+                        <span class="font-medium">Angry</span>
+                    </button>
+                    <button class="mood-btn rounded-xl p-6 flex flex-col items-center" data-mood="confused">
+                        <i class="fas fa-question text-3xl mb-3 text-purple-300"></i>
+                        <span class="font-medium">Confused</span>
+                    </button>
+                    <button class="mood-btn rounded-xl p-6 flex flex-col items-center" data-mood="determined">
+                        <i class="fas fa-fist-raised text-3xl mb-3 text-orange-300"></i>
+                        <span class="font-medium">Determined</span>
+                    </button>
+                    <button class="mood-btn rounded-xl p-6 flex flex-col items-center" data-mood="humble">
+                        <i class="fas fa-seedling text-3xl mb-3 text-teal-300"></i>
+                        <span class="font-medium">Humble</span>
+                    </button>
+                    <button class="mood-btn rounded-xl p-6 flex flex-col items-center" data-mood="fearful">
+                        <i class="fas fa-shield text-3xl mb-3 text-indigo-300"></i>
+                        <span class="font-medium">Fearful</span>
+                    </button>
+                    <button class="mood-btn rounded-xl p-6 flex flex-col items-center" data-mood="seeking">
+                        <i class="fas fa-compass text-3xl mb-3 text-pink-300"></i>
+                        <span class="font-medium">Seeking</span>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Quote Display -->
+            <div id="quote-container" class="space-y-8 mb-16">
+                <!-- Quotes will be added here -->
+            </div>
+            
+            <!-- Load More Button -->
+            <div class="text-center mb-16">
+                <button id="load-more" class="bg-gradient-to-r from-yellow-600 to-red-600 hover:from-yellow-500 hover:to-red-500 text-white font-bold py-4 px-8 rounded-full transition-all duration-300 flex items-center mx-auto text-lg shadow-lg hover:shadow-xl hover:scale-105">
+                    <i class="fas fa-yin-yang mr-3 animate-spin"></i> 
+                    Receive More Wisdom
+                </button>
+            </div>
+            
+            <!-- Scroll Indicator -->
+            <div class="text-center text-gray-400">
+                <p class="mb-4 text-lg quote-font">The dragon's wisdom flows endlessly...</p>
+                <div class="scroll-indicator text-3xl text-yellow-400">
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const moods = {
+                peaceful: [
+                    "Like water, the wise warrior flows around obstacles without resistance.",
+                    "In stillness, find your strength. In silence, hear your truth.",
+                    "The bamboo that bends is stronger than the oak that resists.",
+                    "A calm sea does not make a skilled sailor, nor does a peaceful life reveal a true warrior.",
+                    "The moon reflects on still water. Let your mind be that water.",
+                    "Peace is not the absence of conflict, but the ability to cope with it.",
+                    "The master's tea never spills, no matter how rough the journey.",
+                    "In the eye of the storm, the wise find their center."
+                ],
+                focused: [
+                    "The arrow does not think; it simply flies true to its purpose.",
+                    "When you focus the mind like a laser, mountains become grains of sand.",
+                    "A thousand distractions cannot shake the warrior whose gaze is fixed on the horizon.",
+                    "The master has failed more times than the beginner has even tried.",
+                    "One moment of complete awareness is worth a lifetime of half-hearted effort.",
+                    "The archer who aims at nothing hits nothing every time.",
+                    "Focus is the art of knowing what to ignore.",
+                    "Where attention goes, energy flows and results show."
+                ],
+                angry: [
+                    "Anger is like grasping a hot coal to throw at your enemy. You are the one who gets burned.",
+                    "The tiger's roar is fierce, but its silent stalk is deadly.",
+                    "Do not mistake the heat of your anger for the fire of your spirit.",
+                    "A storm destroys in minutes what took years to build. Master your temper.",
+                    "The sword of anger cuts both ways - first the wielder, then the target.",
+                    "Holding onto anger is like drinking poison and expecting the other person to die.",
+                    "The master transforms rage into resolve, fury into focus.",
+                    "Fire can destroy or forge; anger can consume or create."
+                ],
+                confused: [
+                    "In the beginner's mind there are many possibilities; in the expert's mind, few.",
+                    "When lost in the forest, sometimes you must climb a tree to see the path.",
+                    "The student asked, 'What is the way?' The master kicked him into the river.",
+                    "Confusion is the first step to wisdom. Certainty is the last step to ignorance.",
+                    "If the path before you is clear, you're probably on someone else's.",
+                    "The wise know they know nothing; the foolish think they know everything.",
+                    "In darkness, even a small light reveals the way.",
+                    "Questions are more valuable than answers; they lead to understanding."
+                ],
+                determined: [
+                    "The will to win, the desire to succeed, the urge to reach your full potential... these are the keys that will unlock the door to personal excellence.",
+                    "Fall seven times, stand up eight. This is the way of the warrior.",
+                    "The bamboo that survives the storm is not the strongest, but the most flexible.",
+                    "Mountains bow to those who refuse to surrender.",
+                    "Every expert was once a beginner. Every pro was once an amateur.",
+                    "The dragon does not concern itself with the opinions of sheep.",
+                    "Persistence is the mother of personal change.",
+                    "What seems impossible today will one day become your warm-up."
+                ],
+                humble: [
+                    "The cup must be empty before it can be filled.",
+                    "The tallest tree was once just a seed that held its ground.",
+                    "Humility is not thinking less of yourself; it's thinking of yourself less.",
+                    "The river that makes the deepest valley flows most quietly.",
+                    "Even the master was once a disaster.",
+                    "The wise speak only when they have something to say.",
+                    "Empty vessels make the most noise; full ones remain silent.",
+                    "To know that you do not know is the best. To think you know when you do not is a disease."
+                ],
+                fearful: [
+                    "Courage is not the absence of fear, but action in spite of it.",
+                    "The brave may not live forever, but the cautious do not live at all.",
+                    "Fear is the thief of dreams and the enemy of progress.",
+                    "What you fear controls you; what you face frees you.",
+                    "The lion and the gazelle both know that with the sunrise, they must run.",
+                    "Fear has two meanings: Forget Everything and Run, or Face Everything and Rise.",
+                    "The cave you fear to enter holds the treasure you seek.",
+                    "Dragons are not real, but fear of dragons keeps many heroes at home."
+                ],
+                seeking: [
+                    "The journey of a thousand miles begins with a single step.",
+                    "Seek and you will find, but be prepared to find more than you seek.",
+                    "The truth is not always beautiful, nor beautiful words the truth.",
+                    "Those who seek only happiness never find it; those who seek meaning always do.",
+                    "The path to enlightenment is not a destination but a way of traveling.",
+                    "What you seek is seeking you.",
+                    "The student brings the question; the master provides the space for the answer to emerge.",
+                    "When you seek wisdom, wisdom seeks you."
+                ]
+            };
+            
+            const moodColors = {
+                peaceful: 'from-blue-600 to-cyan-500',
+                focused: 'from-green-600 to-emerald-500',
+                angry: 'from-red-600 to-orange-500',
+                confused: 'from-purple-600 to-indigo-500',
+                determined: 'from-orange-600 to-yellow-500',
+                humble: 'from-teal-600 to-green-500',
+                fearful: 'from-indigo-600 to-purple-500',
+                seeking: 'from-pink-600 to-rose-500'
+            };
+            
+            const masters = [
+                "Lao Tzu", "Confucius", "Bruce Lee", "Sun Tzu", "Miyamoto Musashi", 
+                "Ancient Proverb", "Zen Master", "Taoist Sage", "Shaolin Wisdom", "Dragon's Teaching"
+            ];
+            
+            let currentMood = 'peaceful';
+            let quoteCount = 0;
+            
+            // Initialize particles
+            createParticles();
+            
+            // Generate initial quote
+            generateQuote();
+            
+            // Mood button handlers
+            document.querySelectorAll('.mood-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    // Remove active class from all buttons
+                    document.querySelectorAll('.mood-btn').forEach(b => b.classList.remove('active'));
+                    // Add active class to clicked button
+                    this.classList.add('active');
+                    
+                    currentMood = this.dataset.mood;
+                    document.getElementById('quote-container').innerHTML = '';
+                    quoteCount = 0;
+                    generateQuote();
+                });
+            });
+            
+            // Load more button
+            document.getElementById('load-more').addEventListener('click', generateQuote);
+            
+            // Infinite scroll
+            let isScrolling = false;
+            window.addEventListener('scroll', function() {
+                if (!isScrolling && (window.innerHeight + window.scrollY) >= document.body.offsetHeight - 800) {
+                    isScrolling = true;
+                    generateQuote();
+                    setTimeout(() => isScrolling = false, 1000);
+                }
+            });
+            
+            function generateQuote() {
+                const container = document.getElementById('quote-container');
+                const moodQuotes = moods[currentMood];
+                const randomQuote = moodQuotes[Math.floor(Math.random() * moodQuotes.length)];
+                const randomMaster = masters[Math.floor(Math.random() * masters.length)];
+                
+                const quoteElement = document.createElement('div');
+                quoteElement.className = `quote-card rounded-2xl p-8 bg-gradient-to-br ${moodColors[currentMood]} fade-in relative`;
+                quoteElement.innerHTML = `
+                    <div class="flex items-start mb-6">
+                        <div class="text-6xl mr-6 opacity-20">"</div>
+                        <div class="flex-1">
+                            <p class="text-xl md:text-2xl quote-font leading-relaxed mb-6">${randomQuote}</p>
+                            <div class="flex justify-between items-end">
+                                <div>
+                                    <p class="text-lg font-medium text-yellow-200">— ${randomMaster}</p>
+                                    <p class="text-sm opacity-75 mt-1">${currentMood.charAt(0).toUpperCase() + currentMood.slice(1)} Wisdom #${++quoteCount}</p>
+                                </div>
+                                <div class="text-right">
+                                    <button class="share-btn bg-black bg-opacity-30 hover:bg-opacity-50 px-4 py-2 rounded-lg transition-all duration-300 text-sm" data-quote="${randomQuote}" data-master="${randomMaster}">
+                                        <i class="fas fa-share mr-2"></i>Share
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                
+                container.appendChild(quoteElement);
+                
+                // Add share functionality
+                quoteElement.querySelector('.share-btn').addEventListener('click', function() {
+                    const quote = this.dataset.quote;
+                    const master = this.dataset.master;
+                    const shareText = `"${quote}" — ${master}\n\nShared from Dragon's Breath - Infinite Kung Fu Wisdom`;
+                    
+                    if (navigator.share) {
+                        navigator.share({
+                            title: 'Dragon\'s Breath Wisdom',
+                            text: shareText
+                        });
+                    } else {
+                        navigator.clipboard.writeText(shareText).then(() => {
+                            this.innerHTML = '<i class="fas fa-check mr-2"></i>Copied!';
+                            setTimeout(() => {
+                                this.innerHTML = '<i class="fas fa-share mr-2"></i>Share';
+                            }, 2000);
+                        });
+                    }
+                });
+                
+                // Smooth scroll to new quote if not from infinite scroll
+                if (quoteCount > 1) {
+                    setTimeout(() => {
+                        quoteElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }, 300);
+                }
+            }
+            
+            function createParticles() {
+                const particles = document.getElementById('particles');
+                const symbols = ['✦', '✧', '⭐', '✨', '💫', '🌟'];
+                
+                function addParticle() {
+                    const particle = document.createElement('div');
+                    particle.className = 'particle';
+                    particle.innerHTML = symbols[Math.floor(Math.random() * symbols.length)];
+                    particle.style.left = Math.random() * 100 + '%';
+                    particle.style.animationDuration = (15 + Math.random() * 10) + 's';
+                    particle.style.animationDelay = Math.random() * 5 + 's';
+                    
+                    particles.appendChild(particle);
+                    
+                    // Remove particle after animation
+                    setTimeout(() => {
+                        particle.remove();
+                    }, 25000);
+                }
+                
+                // Create initial particles
+                for (let i = 0; i < 20; i++) {
+                    setTimeout(addParticle, i * 500);
+                }
+                
+                // Keep adding particles
+                setInterval(addParticle, 2000);
+            }
+            
+            // Add more dragons periodically
+            function addDragon() {
+                const container = document.getElementById('dragons');
+                const dragon = document.createElement('div');
+                dragon.className = 'dragon';
+                dragon.innerHTML = Math.random() > 0.5 ? '🐲' : '🐉';
+                dragon.style.animationDelay = '0s';
+                container.appendChild(dragon);
+                
+                setTimeout(() => {
+                    dragon.remove();
+                }, 25000);
+            }
+            
+            setInterval(addDragon, 12000);
+        });
+    </script>
+</body>
+</html>
